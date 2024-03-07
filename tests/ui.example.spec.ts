@@ -1,14 +1,16 @@
-import { test, expect } from '@playwright/test';
-import { PlaywrightDevPage } from './pageobjects/playwright-dev-page';
+import { test } from "@playwright/test";
 
-test('basic test without POM', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
-  await page.locator('text=Get started').click();
-});
-
-test('Get Started doc intro', async ({ page }) => {
-  const playwrightDev = new PlaywrightDevPage(page);
-  await playwrightDev.goto();
-  await playwrightDev.getStarted();
-  await expect(playwrightDev.tocList).toContainText('Installation');
+test("test", async ({ page }) => {
+  await page.goto("https://photo-contest.sophielagirafe.fr/galerie");
+  await page
+    .locator('img[src="photos/mars/500/65e4e4f73a24e3.38168596.jpg"]')
+    .click();
+  const child = page.locator(
+    'img[src="photos/mars/65e4e4f73a24e3.38168596.jpg"]'
+  );
+  await page
+    .locator(".uk-modal-container")
+    .filter({ has: child })
+    .getByRole("button", { name: "Vote" })
+    .click();
 });
